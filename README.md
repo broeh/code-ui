@@ -72,6 +72,7 @@ Back up settings and the SQLite database before replacing a stable version. Olde
 - Permission, effort, question and history features differ between providers.
 - Context display reports available token information, not a billing or rate-limit dashboard.
 - No Git changes view, integrated terminal emulator, cloud synchronization or automatic updater.
+- Two inherited GTK dependency audit warnings remain documented in [SECURITY.md](SECURITY.md).
 
 See the [roadmap](docs/roadmap.md) and [troubleshooting guide](docs/setup.md).
 

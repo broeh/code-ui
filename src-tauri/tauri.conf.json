@@ -4,7 +4,7 @@
   "version": "0.1.0-alpha.1",
   "identifier": "dev.hans.codeui",
   "build": {
-    "beforeDevCommand": "npm run dev",
+    "beforeDevCommand": "python3 tools/release/notices.py && npm run dev",
     "devUrl": "http://localhost:1420",
     "beforeBuildCommand": "npm run build && python3 tools/release/notices.py",
     "frontendDist": "../dist"

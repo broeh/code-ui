@@ -503,6 +503,96 @@ pub async fn run(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[tokio::test]
+    async fn approving_a_plan_sends_manual_mode_before_allowing_execution() {
+        use std::os::unix::fs::PermissionsExt;
+        let root = std::env::temp_dir().join(format!("code-ui-plan-{}", uuid::Uuid::new_v4()));
+        std::fs::create_dir(&root).unwrap();
+        let binary = root.join("fake-cli");
+        std::fs::write(&binary, r#"#!/bin/sh
+while IFS= read -r line; do
+  printf '%s\n' "$line" >> "$CAPTURE"
+  case "$line" in
+    *'"type":"user"'*) printf '%s\n' '{"type":"control_request","request_id":"plan-1","request":{"subtype":"can_use_tool","tool_name":"ExitPlanMode","input":{"plan":"Synthetic plan"}}}' ;;
+    *'"request_id":"plan-1"'*) printf '%s\n' '{"type":"result","subtype":"success","is_error":false,"result":"Synthetic completion","duration_ms":1}' ;;
+  esac
+done
+"#).unwrap();
+        std::fs::set_permissions(&binary, std::fs::Permissions::from_mode(0o700)).unwrap();
+        let settings = TurnSettings {
+            permission: Permission::Plan,
+            ..TurnSettings::default()
+        };
+        let context = StartContext {
+            cwd: root.clone(),
+            env: HashMap::from([(
+                "CAPTURE".into(),
+                root.join("input.jsonl").to_string_lossy().into_owned(),
+            )]),
+            binary: binary.to_string_lossy().into_owned(),
+            native_id: None,
+            chat_id: "synthetic-plan".into(),
+            settings: settings.clone(),
+            log_dir: root.join("logs"),
+        };
+        let (commands, rx) = mpsc::channel(8);
+        let (tx, mut events) = mpsc::channel(16);
+        let task = tokio::spawn(run(context, rx, tx));
+        commands
+            .send(AgentCommand::Send {
+                turn_id: "turn".into(),
+                text: "Make a plan".into(),
+                settings,
+            })
+            .await
+            .unwrap();
+        tokio::time::timeout(Duration::from_secs(5), async {
+            while let Some(event) = events.recv().await {
+                if let AgentEvent::NeedsInput { interaction } = event {
+                    assert_eq!(interaction.kind, "plan");
+                    commands
+                        .send(AgentCommand::Respond {
+                            interaction_id: interaction.id,
+                            response: InteractionResponse::Choice {
+                                choice_id: "allow".into(),
+                                feedback: None,
+                            },
+                        })
+                        .await
+                        .unwrap();
+                } else if matches!(event, AgentEvent::TurnFinished { .. }) {
+                    break;
+                }
+            }
+        })
+        .await
+        .unwrap();
+        commands.send(AgentCommand::Shutdown).await.unwrap();
+        task.await.unwrap();
+        let rows: Vec<Value> = std::fs::read_to_string(root.join("input.jsonl"))
+            .unwrap()
+            .lines()
+            .map(|line| serde_json::from_str(line).unwrap())
+            .collect();
+        let manual = rows
+            .iter()
+            .position(|row| row["request"]["subtype"] == "set_permission_mode")
+            .unwrap();
+        let approval = rows
+            .iter()
+            .position(|row| row["response"]["request_id"] == "plan-1")
+            .unwrap();
+        assert_eq!(rows[manual]["request"]["mode"], "manual");
+        assert_eq!(rows[approval]["response"]["response"]["behavior"], "allow");
+        assert!(manual < approval);
+        assert!(
+            !rows
+                .iter()
+                .any(|row| row["request"]["mode"] == "bypassPermissions")
+        );
+        std::fs::remove_dir_all(root).unwrap();
+    }
     #[test]
     fn todo_write_switches_are_set_for_the_child_process() {
         let mut env = HashMap::from([("PATH".to_string(), "/bin".to_string())]);

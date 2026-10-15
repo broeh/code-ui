@@ -28,7 +28,7 @@ Native checks need `webkit2gtk-driver`, `xvfb` and `dbus-x11` in addition to the
 ```bash
 cargo install tauri-driver --version 2.1.0 --locked
 npm run tauri -- build --debug --no-bundle --config src-tauri/tauri.preview.conf.json
-dbus-run-session -- xvfb-run -a python3 tools/testing/native_smoke.py src-tauri/target/debug/code-ui
+xvfb-run -a dbus-run-session -- python3 tools/testing/native_smoke.py src-tauri/target/debug/code-ui
 ```
 
 The native check creates a temporary home, uses only a fake Codex executable and removes its process group afterwards. It verifies real IPC, project trust, Ask policy, conversation persistence and native thread resume without contacting providers.

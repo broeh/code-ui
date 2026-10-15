@@ -1,5 +1,7 @@
 # Roadmap
 
+Track the inherited GTK/GLib audit warnings in `SECURITY.md` and adopt a compatible upstream fix when available.
+
 The first milestone is a dependable Linux alpha with clear setup, portable CLI configuration, private local storage, tests and reproducible release artifacts.
 
 After feedback:

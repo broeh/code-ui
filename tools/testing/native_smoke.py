@@ -59,8 +59,11 @@ class Window:
         return self.command("POST", "/element", {"using": using, "value": selector})[ELEMENT]
 
     def click(self, selector, using="css selector"):
-        element = wait(lambda: self.find(selector, using))
-        self.command("POST", f"/element/{element}/click", {})
+        def interact():
+            element = self.find(selector, using)
+            self.command("POST", f"/element/{element}/click", {})
+            return True
+        wait(interact)
 
     def button(self, text):
         self.click(f"//button[normalize-space(.)='{text}']", "xpath")

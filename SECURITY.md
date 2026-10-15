@@ -21,3 +21,12 @@ History discovery is optional. Disabling it does not delete previously imported 
 Use GitHub's private vulnerability reporting feature when enabled on the repository. Do not publish credentials, private project names, raw traces or conversation databases in an issue. If private reporting is unavailable, open a minimal issue requesting a private reporting channel without exploit details or sensitive data.
 
 Only the current alpha branch is maintained. Dependency audit results and automated tests are useful checks, not a guarantee that the application or a provider CLI is free of vulnerabilities.
+
+## Known upstream dependency warnings
+
+The 2026-10-15 RustSec audit completed with two informational warnings inherited through Tauri's GTK3 stack:
+
+- [`RUSTSEC-2024-0429`](https://rustsec.org/advisories/RUSTSEC-2024-0429.html): `glib` 0.18.5 has unsound `VariantStrIter` iterator methods that can crash optimized builds. RustSec identifies 0.20.0 or later as patched. CODE_UI does not directly use this iterator, but this is not proof that all transitive paths are unaffected. Tauri's GTK3 dependencies currently select the older GLib binding; a direct application dependency bump does not replace that stack.
+- [`RUSTSEC-2024-0370`](https://rustsec.org/advisories/RUSTSEC-2024-0370.html): `proc-macro-error` 1.0.4 is unmaintained. It is used by the GTK/GLib build-time macros.
+
+These warnings remain visible in CI. No advisory IDs are suppressed. Follow upstream GTK/Tauri compatibility changes before claiming a warning-free audit. The alpha preserves the existing dependency stack rather than introducing an unverified GTK fork.
