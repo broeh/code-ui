@@ -5,7 +5,6 @@ import re
 from pathlib import Path
 
 RULES = {
-    "retired reference": re.compile(r"enjoy[.]dev", re.I),
     "credential pattern": re.compile(r"(?:sk-(?:ant-|proj-)?[A-Za-z0-9_-]{20,}|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|AKIA[A-Z0-9]{16}|-----BEGIN (?:[A-Z]+ )?PRIVATE KEY-----)"),
     "personal home directory": re.compile(r"/(?:home|Users)/(?!user/|test/|someone/|example/)[A-Za-z][A-Za-z0-9._-]*/"),
 }

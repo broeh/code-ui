@@ -20,3 +20,10 @@ The alpha is under active development. Consult the README and agent compatibilit
 
 - Hosted native checks passed setup, trust, a fake Codex turn, saved conversations and restart/resume. Both package downloads passed checksum and content checks.
 - Final inspection identified standard-license references in 98 AppImage system copyright notices. Bundled all referenced standard texts and added exact Ubuntu source-version records to release assets. Packaging is rerun before review.
+
+## Verified alpha candidate
+
+- All six preparation stages are complete through publication review. The repository is private and the 0.1.0-alpha.1 prerelease is a draft.
+- Final hosted checks passed 72 Rust tests, 21 frontend tests, formatting, Clippy, builds, browser workflows and native fake-CLI restart/resume. Two inherited RustSec GTK warnings remain documented.
+- Both downloaded packages passed checksums and extracted-content checks. Notices cover 539 application dependencies, 13 standard license texts and 98 exact system source-version records.
+- The original installation was preserved. Public snapshot and Gitleaks scans passed. See docs/release-plan.md for final build and CI references.

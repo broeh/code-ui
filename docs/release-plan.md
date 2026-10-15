@@ -1,6 +1,6 @@
 # Public alpha implementation plan
 
-Status: in progress. Target: Linux x86-64 alpha with Claude Code and Codex as primary integrations, and optional experimental Antigravity and Muse integrations.
+Status: implementation complete and verified, ready for publication review. The new repository remains private and the prerelease remains a draft. Target: Linux x86-64 alpha with Claude Code and Codex as primary integrations, and optional experimental Antigravity and Muse integrations.
 
 ## Preservation and rollback
 
@@ -18,12 +18,12 @@ Status: in progress. Target: Linux x86-64 alpha with Claude Code and Codex as pr
    - Secret answers are excluded from retained interaction values and diagnostics.
    - App data and diagnostic files use owner-only permissions.
    - Verify redaction, legacy-answer handling, plan transition and isolated preview paths.
-2. **Settings and onboarding** (implemented and locally verified)
+2. **Settings and onboarding** (implemented and verified locally and in native CI)
    - Choose/create a projects folder, enabled agents, default agent/permission and optional history discovery.
    - Support executable overrides, repeatable detection and recovery from invalid settings.
    - Require explicit trust before a newly added project's first agent turn.
    - Preserve existing settings and conversations. Verify fresh and migrated profiles.
-3. **Compatibility and portability** (implemented; native CI verification follows in stage 5)
+3. **Compatibility and portability** (implemented and verified)
    - Work with zero agents, Claude only, Codex only and optional agents.
    - Respect CLI data-directory overrides and valid discovery working directories.
    - Make Linux desktop notifications and the GPU workaround optional.
@@ -32,11 +32,11 @@ Status: in progress. Target: Linux x86-64 alpha with Claude Code and Codex as pr
    - Portable screenshot tooling, documented optional probes, toolchain pins and standard check commands.
    - README, setup/troubleshooting, architecture, security/privacy, contributing, licenses and roadmap.
    - Neutral demo data and screenshots. Exclude private plans, old logs, local reference material, temporary files and build artifacts from the public snapshot.
-5. **CI and packaging** (implemented; hosted verification in progress)
+5. **CI and packaging** (implemented and verified)
    - Locked clean builds and checks on a documented Linux baseline.
    - Generate AppImage and Debian packages, checksums and bundled third-party notices.
    - Verify local artifacts and hosted CI. Record any native or clean-machine checks that remain unavailable.
-6. **Fresh-history repository and alpha**
+6. **Fresh-history repository and alpha** (prepared for publication review)
    - Scan and inspect the allowlisted public snapshot, initialize new history and create the new repository privately.
    - Push source, run hosted CI and prepare a draft prerelease with verified assets.
    - Present the exact repository and draft release for final public visibility/release review.
@@ -55,4 +55,7 @@ Keep the current architecture and dark theme. Provider installation, provider lo
 - Stages 2–3: 71 Rust tests, 21 frontend tests, frontend build and Clippy passed. Browser checks passed setup, one-agent defaults, project trust/cancel, persistence, no-agent behavior, minimum-size footer visibility and console checks. Preview storage now follows the compiled identifier even without an environment variable. Native WebDriver verification will run in CI because this shell has no display server.
 
 - Stage 4: added public documentation, synthetic screenshots, pinned toolchains, portable probes and screenshot tooling, strict bundled license generation and an allowlisted fresh-history export. The exported snapshot passed personal-path, credential-pattern, retired-reference, local-file and metadata checks. Browser screenshot checks reported no console errors, undersized text or horizontal overflow across six states.
-- Stage 5: added Ubuntu 22.04 checks, dependency security scans, browser and isolated native fake-CLI checks, AppImage/Debian packaging, artifact inspection and checksums. The release workflow creates a draft prerelease. Hosted results are pending.
+- Stage 5: Ubuntu 22.04 checks passed 72 Rust tests, 21 frontend tests, formatting, Clippy, frontend build, browser flows and isolated native fake-CLI setup/trust/turn/restart/resume. npm audit found no known vulnerabilities. RustSec completed with two inherited informational warnings documented in SECURITY.md, without suppressions.
+- Packaging passed for AppImage and Debian. The exact draft downloads passed SHA-256 checks; both packages were extracted and their executable and license resources checked without installation. Bundled notices cover 539 application dependencies plus 13 standard system license texts. AppImage preserves 98 system copyright notices, with exact Ubuntu binary/source versions in SYSTEM_LIBRARY_SOURCES.json.
+- Stage 6: [new private repository](https://github.com/broeh/code-ui), with fresh source history and a [draft alpha](https://github.com/broeh/code-ui/releases). The original installed app and all 163 preserved source files still match their backup hashes. Nothing has been publicly published.
+- Verified build commit: `51a309c8631891c1f4c83935ab48558c16952f36`. [Final checks](https://github.com/broeh/code-ui/actions/runs/38801504016) and [final package workflow](https://github.com/broeh/code-ui/actions/runs/38801507778) succeeded. Later documentation/audit-marker cleanup does not change the compiled application or packaging inputs.
