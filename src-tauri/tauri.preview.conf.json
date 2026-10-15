@@ -1,0 +1,6 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "CODE_UI Preview",
+  "identifier": "dev.hans.codeui.preview",
+  "bundle": { "active": false }
+}

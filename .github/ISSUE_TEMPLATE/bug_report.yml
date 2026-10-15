@@ -1,0 +1,22 @@
+name: Bug report
+description: Report a reproducible problem in the Linux alpha
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Include steps, expected behavior and actual behavior. Use synthetic examples.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: App version, Linux distribution, display session and relevant CLI versions.
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Sanitized diagnostics
+      description: Never attach credentials, full raw traces, private conversations or app databases.

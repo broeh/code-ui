@@ -1,0 +1,60 @@
+name: Checks
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  linux:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+    env:
+      CARGO_BUILD_JOBS: 2
+      CARGO_PROFILE_DEV_DEBUG: 0
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - name: Linux dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev build-essential libssl-dev libgtk-3-dev librsvg2-dev libayatana-appindicator3-dev patchelf webkit2gtk-driver xvfb dbus-x11
+      - name: Pinned Rust toolchain
+        run: rustup show
+      - run: npm ci
+      - run: npm audit --audit-level=high
+      - run: npm test
+      - run: npm run build
+      - run: python3 tools/release/notices.py
+      - run: npm run check:rust
+      - name: Browser smoke checks
+        run: |
+          npx playwright install --with-deps chromium
+          npm run test:ui
+      - name: Build isolated native preview
+        run: npm run tauri -- build --debug --no-bundle --config src-tauri/tauri.preview.conf.json
+      - name: Native Tauri smoke checks
+        run: |
+          cargo install tauri-driver --version 2.1.0 --locked
+          dbus-run-session -- xvfb-run -a --server-args="-screen 0 1920x1080x24" python3 tools/testing/native_smoke.py src-tauri/target/debug/code-ui
+      - name: Synthetic UI diagnostics
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: synthetic-ui-checks
+          path: |
+            .cache/ui-checks
+            .cache/native-checks
+          retention-days: 7
+  rust-security:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - run: rustup show
+      - run: cargo install cargo-audit --version 0.22.2 --locked
+      - run: cargo audit
+        working-directory: src-tauri

@@ -1,0 +1,42 @@
+name: Draft Linux alpha
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 50
+    permissions:
+      contents: write
+    env:
+      CARGO_BUILD_JOBS: 2
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - name: Linux build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev build-essential libssl-dev libgtk-3-dev librsvg2-dev libayatana-appindicator3-dev patchelf libfuse2
+      - run: rustup show
+      - run: npm ci
+      - name: Check public snapshot
+        run: python3 tools/release/audit.py
+      - run: npm test
+      - run: npm run build:linux
+      - name: Assemble and inspect artifacts
+        run: python3 tools/release/artifacts.py
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: linux-alpha
+          path: .cache/release/*
+          retention-days: 30
+      - name: Create reviewable draft prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version=$(node -p 'require("./package.json").version')
+          gh release create "v${version}" .cache/release/* --draft --prerelease --target "$GITHUB_SHA" --title "CODE_UI ${version}" --notes-file docs/releases/alpha.md

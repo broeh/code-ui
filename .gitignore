@@ -1,0 +1,25 @@
+# Local reference material, not part of this project
+inspiration/
+
+# Build output and dependencies
+node_modules/
+dist/
+src-tauri/target/
+src-tauri/gen/
+
+# Local
+*.log
+.DS_Store
+__pycache__/
+
+# Private scratch files and release work
+temp/
+.cache/
+.env
+.env.*
+!.env.example
+*.trace.jsonl
+*.stderr.log
+*.db
+*.db-*
+*.sqlite*

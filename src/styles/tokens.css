@@ -1,0 +1,19 @@
+:root {
+  /* surfaces, darkest to lightest */
+  --bg: #141416;
+  --bg-elev: #1b1b1f;
+  --bg-raised: #232328;
+  --bg-hover: #2c2c33;
+  --border: #2e2e35;
+  --text: #ededf0; --text-muted: #a1a1aa; --text-faint: #76767f;
+  --accent: #8ea2ff; --accent-ink: #0f1430;
+  --ok: #4ade80; --warn: #fbbf24; --err: #f87171; --info: #60a5fa;
+  --code-bg: #0e0e10;
+  --agent-claude: #d97757; --agent-codex: #10a37f; --agent-agy: #4285f4; --agent-muse: #a78bfa;
+  --font-ui: "Inter Variable", system-ui, sans-serif;
+  --font-mono: "JetBrainsMono Nerd Font", "JetBrains Mono", monospace;
+  --radius-sm: 6px; --radius: 10px; --radius-lg: 14px; --radius-xl: 16px;
+  --column: 62.5rem;
+  font-size: 16px;
+  color-scheme: dark;
+}

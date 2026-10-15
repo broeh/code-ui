@@ -1,0 +1,46 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "CODE_UI",
+  "version": "0.1.0-alpha.1",
+  "identifier": "dev.hans.codeui",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "npm run build && python3 tools/release/notices.py",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "CODE_UI",
+        "width": 1400,
+        "height": 900,
+        "minWidth": 1000,
+        "minHeight": 650,
+        "zoomHotkeysEnabled": true
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' asset: http://asset.localhost data:; connect-src ipc: http://ipc.localhost"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": [
+      "deb",
+      "appimage"
+    ],
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.png"
+    ],
+    "shortDescription": "A desktop workspace for coding agents",
+    "longDescription": "Keep project folders, agent conversations, files and context handoffs together. Uses separately installed agent CLIs and their own authentication.",
+    "resources": {
+      "../LICENSE": "LICENSE",
+      "../.cache/THIRD_PARTY_LICENSES.txt": "THIRD_PARTY_LICENSES.txt"
+    }
+  }
+}

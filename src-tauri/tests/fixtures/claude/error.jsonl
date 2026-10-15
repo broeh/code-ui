@@ -1,0 +1,6 @@
+{"dir": "in", "msg": {"request": {"subtype": "initialize"}, "request_id": "init-1", "type": "control_request"}}
+{"dir": "in", "msg": {"type": "user", "message": {"role": "user", "content": "Reply with one word."}}}
+{"dir": "out", "msg": {"type": "control_response", "response": {"subtype": "success", "request_id": "init-1", "response": {"commands": []}}}}
+{"dir": "out", "msg": {"type": "system", "subtype": "init", "session_id": "726c0321-b6d0-42d6-99c3-54239da84df7", "model": "code-ui-model-does-not-exist", "permissionMode": "bypassPermissions", "cwd": "/scratch"}}
+{"dir": "out", "msg": {"type": "assistant", "message": {"id": "427e42d6-dfd2-4c9c-a166-51919c0289c5", "role": "assistant", "content": [{"text": "There's an issue with the selected model (code-ui-model-does-not-exist). It may not exist or you may not have access to it. Run --model to pick a different model.", "type": "text"}], "model": "<synthetic>"}, "parent_tool_use_id": null, "session_id": "726c0321-b6d0-42d6-99c3-54239da84df7"}}
+{"dir": "out", "msg": {"type": "result", "subtype": "success", "result": "There's an issue with the selected model (code-ui-model-does-not-exist). It may not exist or you may not have access to it. Run --model to pick a different model.", "is_error": true, "duration_ms": 573, "session_id": "726c0321-b6d0-42d6-99c3-54239da84df7"}}

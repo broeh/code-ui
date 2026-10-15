@@ -1,0 +1,9 @@
+{
+  "alloc-stdlib.LICENSE": "https://raw.githubusercontent.com/dropbox/rust-alloc-no-stdlib/0a81fd6928ea3b33c8cd484aa4575d50ffb98012/LICENSE",
+  "defmt-parser.LICENSE-MIT": "https://raw.githubusercontent.com/knurling-rs/defmt/4a8cdb44891ed57b8ff5a023b6bec7137c48708f/LICENSE-MIT",
+  "dlopen2.LICENSE": "https://raw.githubusercontent.com/OpenByteDev/dlopen2/cc80e4a0a90d499b677fdf7743699b4b3a43a989/LICENSE",
+  "libappindicator.LICENSE-MIT": "https://raw.githubusercontent.com/tauri-apps/libappindicator-rs/eafd1e3682a1247f595410266091e9684021cb6f/LICENSE-MIT",
+  "tauri-plugin.LICENSE-MIT": "https://raw.githubusercontent.com/tauri-apps/tauri/30da1fd6e17de6107ecc850c95dfb16b5729f2dd/LICENSE-MIT",
+  "selectors.MPL-2.0.txt": "https://www.mozilla.org/media/MPL/2.0/index.txt",
+  "uiw.LICENSE": "https://raw.githubusercontent.com/uiwjs/react-codemirror/1e2e11f865860c6bd5029d71a2a09bd894ed5bad/LICENSE"
+}
