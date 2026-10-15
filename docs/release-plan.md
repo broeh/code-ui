@@ -1,6 +1,6 @@
 # Public alpha implementation plan
 
-Status: implementation complete and verified, ready for publication review. The new repository remains private and the prerelease remains a draft. Target: Linux x86-64 alpha with Claude Code and Codex as primary integrations, and optional experimental Antigravity and Muse integrations.
+Status: implementation complete and verified. The repository is public and the prerelease remains a draft pending separate publication. Target: Linux x86-64 alpha with Claude Code and Codex as primary integrations, and optional experimental Antigravity and Muse integrations.
 
 ## Preservation and rollback
 
@@ -57,5 +57,5 @@ Keep the current architecture and dark theme. Provider installation, provider lo
 - Stage 4: added public documentation, synthetic screenshots, pinned toolchains, portable probes and screenshot tooling, strict bundled license generation and an allowlisted fresh-history export. The exported snapshot passed personal-path, credential-pattern, retired-reference, local-file and metadata checks. Browser screenshot checks reported no console errors, undersized text or horizontal overflow across six states.
 - Stage 5: Ubuntu 22.04 checks passed 72 Rust tests, 21 frontend tests, formatting, Clippy, frontend build, browser flows and isolated native fake-CLI setup/trust/turn/restart/resume. npm audit found no known vulnerabilities. RustSec completed with two inherited informational warnings documented in SECURITY.md, without suppressions.
 - Packaging passed for AppImage and Debian. The exact draft downloads passed SHA-256 checks; both packages were extracted and their executable and license resources checked without installation. Bundled notices cover 539 application dependencies plus 13 standard system license texts. AppImage preserves 98 system copyright notices, with exact Ubuntu binary/source versions in SYSTEM_LIBRARY_SOURCES.json.
-- Stage 6: [new private repository](https://github.com/broeh/code-ui), with fresh source history and a [draft alpha](https://github.com/broeh/code-ui/releases). The original installed app and all 163 preserved source files still match their backup hashes. Nothing has been publicly published.
-- Verified build commit: `51a309c8631891c1f4c83935ab48558c16952f36`. [Final checks](https://github.com/broeh/code-ui/actions/runs/38801504016) and [final package workflow](https://github.com/broeh/code-ui/actions/runs/38801507778) succeeded. Later documentation/audit-marker cleanup does not change the compiled application or packaging inputs.
+- Stage 6: [public repository](https://github.com/broeh/code-ui), with fresh source history and a [draft alpha](https://github.com/broeh/code-ui/releases). The original installed app and all 163 preserved source files still match their backup hashes. The draft prerelease has not been published.
+- Verified build commit: `51a309c8631891c1f4c83935ab48558c16952f36`. Final hosted checks and the final package workflow succeeded. Later documentation cleanup does not change the compiled application or packaging inputs.
