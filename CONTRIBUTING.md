@@ -45,4 +45,6 @@ Linux CI runs tests, browser checks and native WebDriver checks with fake CLIs. 
 
 `tools/release/export.py <empty-folder>` exports the allowlisted public source without private history or local material. Run `tools/release/audit.py <folder>` on the result before initializing its Git history. Notice generation requires installed dependencies; supplemental upstream license texts and their source URLs are recorded in `tools/release/licenses` for packages that omit them.
 
+Package inspection extracts both formats, checks the exact bundled notices and verifies standard license texts referenced by AppImage system copyright files. `SYSTEM_LIBRARY_SOURCES.json` records the corresponding Ubuntu binary/source versions. Updating an existing draft is allowed; the workflow refuses to overwrite a published release.
+
 Keep package, Cargo and Tauri versions synchronized. Update `CHANGELOG.md` and `development_log.md` for meaningful changes. See `docs/release-plan.md` for the alpha gates and `SECURITY.md` before sharing diagnostics.

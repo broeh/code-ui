@@ -48,4 +48,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           version=$(node -p 'require("./package.json").version')
-          gh release create "v${version}" .cache/release/* --draft --prerelease --target "$GITHUB_SHA" --title "CODE_UI ${version}" --notes-file docs/releases/alpha.md
+          if gh release view "v${version}" --json isDraft > .cache/existing-release.json; then
+            node -e 'if (!require("./.cache/existing-release.json").isDraft) process.exit(1)'
+            gh release edit "v${version}" --draft --prerelease --target "$GITHUB_SHA" --title "CODE_UI ${version}" --notes-file docs/releases/alpha.md
+            gh release upload "v${version}" .cache/release/* --clobber
+          else
+            gh release create "v${version}" .cache/release/* --draft --prerelease --target "$GITHUB_SHA" --title "CODE_UI ${version}" --notes-file docs/releases/alpha.md
+          fi

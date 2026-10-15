@@ -59,6 +59,11 @@ def generate():
         add(package["name"], package["version"], package.get("license"), f"https://crates.io/crates/{package['name']}/{package['version']}", files)
 
     add("LobeHub agent icons", "", "MIT", "https://github.com/lobehub/lobe-icons", [ROOT / "src/assets/agents/LICENSE"])
+    sections.append("\nStandard license texts referenced by system-library copyright notices in AppImage usr/share/doc. Exact system package source versions accompany release assets.\n")
+    common = ROOT / "tools/release/licenses/common"
+    sources = json.loads((common / "sources.json").read_text())
+    for item in sorted(common.glob("*.txt")):
+        sections.append(f"\nStandard system license: {item.stem}\nSource: {sources[item.stem]}\n\n{item.read_text()}\n")
     OUTPUT.parent.mkdir(exist_ok=True)
     OUTPUT.write_text("\n".join(sections))
     print(f"Generated bundled notices for {count} dependencies.")

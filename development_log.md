@@ -17,3 +17,6 @@ The alpha is under active development. Consult the README and agent compatibilit
 - Added a fake Claude process check for manual mode before plan approval. All 72 local Rust tests and Clippy pass.
 - Gitleaks found no secrets in the fresh repository history. Hosted RustSec checks passed with two inherited warnings documented in SECURITY.md.
 - First Ubuntu run built both desktop packages and passed Rust/frontend/browser checks. Corrected asynchronous native test timing and package-content inspection before rerunning the final checks.
+
+- Hosted native checks passed setup, trust, a fake Codex turn, saved conversations and restart/resume. Both package downloads passed checksum and content checks.
+- Final inspection identified standard-license references in 98 AppImage system copyright notices. Bundled all referenced standard texts and added exact Ubuntu source-version records to release assets. Packaging is rerun before review.
